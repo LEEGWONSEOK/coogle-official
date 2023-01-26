@@ -28,4 +28,15 @@ export class RecipeRepository extends Repository<Recipe> {
     await this.save(result);
     return result;
   }
+
+  async getAllRecipesByCategory(
+    categoryId: number,
+    filter: string,
+    page: number,
+    perpage: number,
+  ): Promise<Recipe[]> {
+    return this.find({
+      select: {},
+    });
+  }
 }

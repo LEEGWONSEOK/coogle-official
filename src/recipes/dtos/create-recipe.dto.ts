@@ -12,7 +12,6 @@ export class CreateRecipeDto {
   @IsString()
   description: string;
 
-  @IsNotEmpty()
   @IsNumber()
   level: number;
 

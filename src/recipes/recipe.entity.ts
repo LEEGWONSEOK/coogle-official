@@ -19,7 +19,7 @@ export class Recipe extends BaseEntity {
   serving: number;
 
   @Column()
-  description: number;
+  description: string;
 
   @Column()
   score: number;
@@ -27,14 +27,19 @@ export class Recipe extends BaseEntity {
   @Column()
   level: number;
 
-  @Column('json', { array: true })
+  @Column({ type: 'json', nullable: true })
   contents: object[];
 
-  @Column('json', { array: true })
+  @Column({ type: 'json', nullable: true })
   ingredients: object[];
 
-  @Column('json', { array: true })
+  @Column({ type: 'json', nullable: true })
   condiments: object[];
+  // @Column('json', { array: true })
+  // contents: object[];
+
+  // @Column('json', { array: true })
+  // ingredients: object[];
 
   @CreateDateColumn()
   create_at: Date;

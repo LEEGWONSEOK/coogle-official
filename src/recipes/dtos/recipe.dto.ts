@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator';
 
-export class CreateRecipeDto {
+export class RecipeDto {
   @IsNotEmpty()
   @IsString()
   title: string;

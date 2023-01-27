@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmExModule } from 'src/decorators/typeorm-ex.module';
-
-import { RecipeRepository } from './recipe.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Recipe } from './recipe.entity';
 import { RecipesController } from './recipes.controller';
 import { RecipesService } from './recipes.service';
 
 @Module({
-  imports: [TypeOrmExModule.forCustomRepository([RecipeRepository])],
+  imports: [TypeOrmModule.forFeature([Recipe])],
   controllers: [RecipesController],
   providers: [RecipesService],
 })

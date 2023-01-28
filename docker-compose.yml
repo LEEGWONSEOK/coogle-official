@@ -1,0 +1,32 @@
+# docker compose version
+version: "3"
+
+# 이미지 넣는 곳
+services:
+  # 각각 컨테이너 스펙 기술
+  db:
+    image: postgres:14.6-alpine
+    container_name: postgres
+    restart: always
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_DB: "coogle"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWROD: "postgres"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql # 신경 X
+
+  web: 
+    container_name: nestjs
+    image: node:18-alpine
+    depends_on:
+      - db
+    ports:
+      - "8000:3003"
+    volumes:  # 도커 안에 있는 디렉토리
+      - .:/app
+    command: sh -c "cd app && npm run start:dev"
+       #npm run start:dev

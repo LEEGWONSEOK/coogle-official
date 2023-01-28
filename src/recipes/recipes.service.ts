@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RecipeDto } from './dtos';
-import { Recipe } from './recipe.entity';
+import { Recipe } from './entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -27,25 +27,33 @@ export class RecipesService {
       title,
       serving,
       description,
-      score: 0,
+      average_score: 0,
       level,
       contents,
       ingredients,
       condiments,
     });
-    await this.recipeRepository.save(result);
 
+    await this.recipeRepository.save(result);
     return result;
   }
 
   // 레시피 전체 조회(카테고리별로)
   async getAllRecipesByCategory(
-    categoryId: number,
+    //categoryId: number,
     filter = 'latest',
     page = 1,
     perpage = 10,
   ): Promise<Recipe[]> {
-    return this.recipeRepository.find();
+    return this.recipeRepository.find({
+      select: {
+        title: true,
+        description: true,
+        average_score: true,
+        level: true,
+      },
+      where: {},
+    });
   }
 }
 //   // 레시피 검색 조회

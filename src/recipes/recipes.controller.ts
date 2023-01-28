@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { RecipeDto } from './dtos';
 import { RecipesService } from './recipes.service';
-import { Recipe } from './recipe.entity';
+import { Recipe } from './entities';
 
 @Controller('/recipes')
 export class RecipesController {
@@ -20,18 +20,18 @@ export class RecipesController {
     return this.recipesService.createRecipe(createRecipe);
   }
 
-  // @Get('/categories/:categoryId')
-  // getAllRecipesByCategory(
-  //   @Param('categoryId', ParseIntPipe) categoryId: number,
-  //   @Query('filter') filter: string,
-  //   @Query('page', ParseIntPipe) page: number,
-  //   @Query('perpage', ParseIntPipe) perpage: number,
-  // ): Promise<Recipe[]> {
-  //   return this.recipesService.getAllRecipesByCategory(
-  //     categoryId,
-  //     filter,
-  //     page,
-  //     perpage,
-  //   );
-  // }
+  @Get('/categories')
+  getAllRecipesByCategory(
+    //@Param('categoryId', ParseIntPipe) categoryId,
+    @Query('filter') filter: string,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('perpage', ParseIntPipe) perpage: number,
+  ): Promise<Recipe[]> {
+    return this.recipesService.getAllRecipesByCategory(
+      //categoryId,
+      filter,
+      page,
+      perpage,
+    );
+  }
 }

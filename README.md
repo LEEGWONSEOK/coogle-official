@@ -31,16 +31,14 @@
 
 <br>
 
-## ⚙️ Installation & Running the app
+## ⚙️ Running the App
 
 ```bash
-# Installation
-$ npm install
+# Docker-Compose Running
+$ docker-compose up # dev mode
 
-# Running the APP
-$ npm run start  # dev mode
-$ npm run start:dev  # dev mode(watch mode)
-$ npm run start:prod  # production mode
+# Running the App in local
+$ npm run start:dev  # dev mode
 ```
 
 <br>
@@ -48,3 +46,5 @@ $ npm run start:prod  # production mode
 ## Database
 
 ![database](./READMEfile/coogleDB.drawio.png)
+
+<br>

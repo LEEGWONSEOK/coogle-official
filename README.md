@@ -48,3 +48,7 @@ $ npm run start:dev  # dev mode
 ![database](./READMEfile/coogleDB.drawio.png)
 
 <br>
+
+## 테스트 영상
+
+<iframe width="1022" height="618" src="https://www.youtube.com/embed/Xs2p8c-XiV4" title="coogle ios application 개발 진행중" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

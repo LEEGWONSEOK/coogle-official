@@ -25,6 +25,8 @@
 
 ## 🤔 구현 내용
 
+![workflow](./READMEfile/workflow.png)
+
 ### 레시피, 리뷰, 요리 정보 API 개발
 
 - MySQL, Sequelize 기반의 RestAPI 설계

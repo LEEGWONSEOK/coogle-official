@@ -45,17 +45,6 @@ $ npm run start:prod  # production mode
 
 <br>
 
-## Test
+## Database
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-<br>
+![database](./READMEfile/coogleDB.drawio.png)

@@ -1,9 +1,8 @@
-import { Column, Entity, OneToMany } from 'typeorm';
-import { Common } from 'src/base/common.entity';
-import { Recipe } from 'src/recipes/entities';
-import { Review } from 'src/reviews/entities';
+import { Column, Entity, OneToMany, Unique } from 'typeorm';
+import { Common, Recipe, Review } from '.';
 
 @Entity()
+@Unique(['account'])
 export class User extends Common {
   @Column()
   account: string;

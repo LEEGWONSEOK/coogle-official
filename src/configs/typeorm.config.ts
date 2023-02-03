@@ -1,12 +1,16 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Recipe, RecipeCategory } from 'src/recipes/entities';
-import { Review } from 'src/reviews/entities';
-import { Tip, TipCategory } from 'src/tips/entities';
-import { User } from 'src/users/entities';
+import {
+  User,
+  Recipe,
+  RecipeCategory,
+  Tip,
+  TipCategory,
+  Review,
+} from '../entities';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: 'db',
+  host: 'localhost',
   port: 5432,
   username: 'postgres',
   password: 'postgres',

@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Common } from 'src/base/common.entity';
-import { Recipe } from '.';
+import { Common, Recipe } from '.';
 
 @Entity()
 export class RecipeCategory extends Common {

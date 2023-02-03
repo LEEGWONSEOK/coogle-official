@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Common } from 'src/base/common.entity';
-import { Tip } from './tip.entity';
+import { Common, Tip } from '.';
 
 @Entity()
 export class TipCategory extends Common {

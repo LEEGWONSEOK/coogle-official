@@ -1,7 +1,5 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { Common } from 'src/base/common.entity';
-import { User } from 'src/users/entities';
-import { Recipe } from 'src/recipes/entities';
+import { Common, User, Recipe } from '.';
 
 @Entity()
 export class Review extends Common {

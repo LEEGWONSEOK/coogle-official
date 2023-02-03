@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RecipeDto } from './dtos';
-import { Recipe } from './entities';
+import { Recipe } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 

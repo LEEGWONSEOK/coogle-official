@@ -6,12 +6,13 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Version,
 } from '@nestjs/common';
 import { RecipeDto } from './dtos';
 import { RecipesService } from './recipes.service';
-import { Recipe } from './entities';
+import { Recipe } from '../entities';
 
-@Controller('/recipes')
+@Controller({ version: '1', path: 'recipes' })
 export class RecipesController {
   constructor(private recipesService: RecipesService) {}
 

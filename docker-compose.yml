@@ -29,5 +29,5 @@ services:
       - "8000:3003"
     volumes:  # 도커 안에 있는 디렉토리
       - .:/app
-    command: sh -c "cd app && npm i -g @nestjs/cli && npm i && npm run start:dev"
+    command: sh -c "cd app && npm i && npm run start:dev"
        #npm run start:dev

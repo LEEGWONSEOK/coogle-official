@@ -3,6 +3,7 @@ import { RecipeDto } from './dtos';
 import { Recipe } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PaginationDto } from 'src/utils/dtos/pagination.dto';
 
 @Injectable()
 export class RecipesService {
@@ -38,22 +39,76 @@ export class RecipesService {
     return result;
   }
 
-  // 레시피 전체 조회(카테고리별로)
-  async getAllRecipesByCategory(
-    //categoryId: number,
-    filter = 'latest',
-    page = 1,
-    perpage = 10,
+  // 레시피 전체 조회(카테고리=latest)
+  async getAllRecipesByLatest(
+    categoryId: number,
+    paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
-    return this.recipeRepository.find({
+    const { page, perpage } = paginationDto;
+    const result = this.recipeRepository.find({
       select: {
+        id: true,
         title: true,
         description: true,
         average_score: true,
         level: true,
       },
-      where: {},
+      //where: { category: categoryId },
+      take: perpage,
+      skip: (page - 1) * perpage,
+      order: {
+        createAt: 'DESC',
+      },
     });
+    return result;
+  }
+
+  // 레시피 전체 조회(카테고리=popularity)
+  async getAllRecipesByPopularity(
+    categoryId: number,
+    paginationDto: PaginationDto,
+  ): Promise<Recipe[]> {
+    const { page, perpage } = paginationDto;
+    const result = this.recipeRepository.find({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        average_score: true,
+        level: true,
+      },
+      //where: { id: categoryId },
+      take: perpage,
+      skip: (page - 1) * perpage,
+      order: {
+        average_score: 'DESC',
+      },
+    });
+    return result;
+  }
+
+  // 레시피 전체 조회(카테고리=generated)
+  async getAllRecipesByGenerated(
+    categoryId: number,
+    paginationDto: PaginationDto,
+  ): Promise<Recipe[]> {
+    const { page, perpage } = paginationDto;
+    const result = this.recipeRepository.find({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        average_score: true,
+        level: true,
+      },
+      //where: { id: categoryId },
+      take: perpage,
+      skip: (page - 1) * perpage,
+      order: {
+        createAt: 'ASC',
+      },
+    });
+    return result;
   }
 }
 //   // 레시피 검색 조회

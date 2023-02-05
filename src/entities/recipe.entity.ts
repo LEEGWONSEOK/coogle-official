@@ -36,8 +36,6 @@ export class Recipe extends Common {
   category: RecipeCategory;
 
   // recipe : review = 1 : N
-
-  // user : review = 1 : N
   @OneToMany(() => Review, (review) => review.recipe)
   reviews: Review[];
 }

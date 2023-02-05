@@ -51,11 +51,31 @@ export class RecipesController {
   }
 
   // 레시피 검색 조회
-  // @Get('/search')
-  // getRecipeBySearch(
-  //   @Query('search') search: string,
-  //   @Query('page', ParseIntPipe) page: number,
-  // ): Promise<Recipep[]> {
-  //   return this.recipesService.getRecipeBySearch(search, page);
-  // }
+  @Get('/search')
+  getAllRecipesBySearch(
+    @Query('q') q: string,
+    @Query() paginationDto: PaginationDto,
+  ): Promise<Recipe[]> {
+    return this.recipesService.getAllRecipesBySearch(q, paginationDto);
+  }
+
+  // 레시피 상세 조회
+  @Get('/:recipeId')
+  getRecipeById(@Param('recipeId') recipeId: number): Promise<Recipe> {
+    return this.recipesService.getRecipeById(recipeId);
+  }
+
+  // 레시피 step 조회
+  @Get('/:recipeId/step')
+  getRecipeStepById(@Param('recipeId') recipeId: number): Promise<Recipe> {
+    return this.recipesService.getRecipeStepById(recipeId);
+  }
+
+  // 레시피 수정 페이지 조회
+  @Get('/:recipeId/update')
+  getRecipeUpdateById(@Param('recipeId') recipeId: number): Promise<Recipe> {
+    return this.recipesService.getRecipeUpdateById(recipeId);
+  }
+
+  // 레시피 수정
 }

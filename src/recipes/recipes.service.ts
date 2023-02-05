@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RecipeDto } from './dtos';
 import { Recipe } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { PaginationDto } from 'src/utils/dtos/pagination.dto';
 
 @Injectable()
@@ -46,19 +46,11 @@ export class RecipesService {
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
     const result = this.recipeRepository.find({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        average_score: true,
-        level: true,
-      },
+      select: ['id', 'title', 'description', 'average_score', 'level'],
       //where: { category: categoryId },
       take: perpage,
       skip: (page - 1) * perpage,
-      order: {
-        createAt: 'DESC',
-      },
+      order: { createAt: 'DESC' },
     });
     return result;
   }
@@ -70,19 +62,11 @@ export class RecipesService {
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
     const result = this.recipeRepository.find({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        average_score: true,
-        level: true,
-      },
+      select: ['id', 'title', 'description', 'average_score', 'level'],
       //where: { id: categoryId },
       take: perpage,
       skip: (page - 1) * perpage,
-      order: {
-        average_score: 'DESC',
-      },
+      order: { average_score: 'DESC' },
     });
     return result;
   }
@@ -94,50 +78,70 @@ export class RecipesService {
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
     const result = this.recipeRepository.find({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        average_score: true,
-        level: true,
-      },
+      select: ['id', 'title', 'description', 'average_score', 'level'],
       //where: { id: categoryId },
       take: perpage,
       skip: (page - 1) * perpage,
-      order: {
-        createAt: 'ASC',
-      },
+      order: { createAt: 'ASC' },
     });
     return result;
   }
+
+  // 레시피 검색 조회
+  async getAllRecipesBySearch(
+    q: string,
+    paginationDto: PaginationDto,
+  ): Promise<Recipe[]> {
+    const { page, perpage } = paginationDto;
+    const result = this.recipeRepository.find({
+      select: ['id', 'title', 'description', 'average_score', 'level'],
+      take: perpage,
+      skip: (page - 1) * perpage,
+      where: [{ title: Like(`%${q}%`) }],
+    });
+    return result;
+  }
+
+  // 레시피 상세 조회
+  getRecipeById(recipeId: number) {
+    return this.recipeRepository.findOne({
+      select: [
+        'id',
+        'title',
+        'serving',
+        'description',
+        'average_score',
+        'level',
+        'ingredients',
+        'condiments',
+      ],
+      where: { id: recipeId },
+    });
+  }
+
+  // 레시피 step 조회
+  async getRecipeStepById(recipeId: number): Promise<Recipe> {
+    return this.recipeRepository.findOne({
+      select: ['contents'],
+      where: { id: recipeId },
+    });
+  }
+
+  // 레시피 수정 페이지 조회
+  async getRecipeUpdateById(recipeId: number): Promise<Recipe> {
+    return this.recipeRepository.findOne({
+      where: { id: recipeId },
+    });
+  }
+
+  //   // 레시피 수정
+  //   updateRecipeById() {
+  //     return this.recipeRepository.updateRecipeById();
+  //   }
+
+  //   // 레시피 삭제
+  //   deleteRecipeById() {
+  //     return this.recipeRepository.deleteRecipeById();
+  //   }
+  //
 }
-//   // 레시피 검색 조회
-//   getRecipeBySearch() {
-//     return this.recipeRepository.
-//   }
-
-//   // 레시피 상세 조회
-//   getRecipeById() {
-//     return this.recipeRepository.
-//   }
-
-//   // 레시피 진행 단계 조회
-//   getRecipeStep() {
-//     return this.recipeRepository.
-//   }
-
-//   // 레시피 수정 페이지 조회
-//   getRecipeUpdatePageById() {
-//     return this.recipeRepository.getRecipeUpdatePageById();
-//   }
-
-//   // 레시피 수정
-//   updateRecipeById() {
-//     return this.recipeRepository.updateRecipeById();
-//   }
-
-//   // 레시피 삭제
-//   deleteRecipeById() {
-//     return this.recipeRepository.deleteRecipeById();
-//   }
-//

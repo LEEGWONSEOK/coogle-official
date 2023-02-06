@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities';
 import { JwtService } from '@nestjs/jwt';
-import { AccountDto } from './dtos';
+import { AccountDto } from '../utils/dtos';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +15,24 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>, //private jwtService: JwtService,
   ) {}
+
+  async login(accountDto: AccountDto): Promise<string> {
+    // 회원정보가 있는지 찾아보기
+    const user = await this.userRepository.findOne({
+      where: { account: accountDto.account },
+    });
+
+    // 회원정보가 없다면? -> 회원가입
+    if (!user) {
+      const newUser = this.userRepository.create({
+        account: accountDto.account,
+      });
+      await this.userRepository.save(newUser);
+      return `회원가입이 완료되었습니다.`;
+    }
+    // 회원정보가 있으면? -> 로그인
+    return `로그인이 완료되었습니다.`;
+  }
 
   // async signUp(authCreateDto: AuthCreateDto): Promise<void> {
   //   const { account, nickname, platform } = authCreateDto;

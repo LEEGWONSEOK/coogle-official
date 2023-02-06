@@ -2,15 +2,15 @@ import {
   Body,
   Controller,
   Get,
-  Param,
-  ParseIntPipe,
   Post,
+  Patch,
+  Delete,
+  Param,
   Query,
 } from '@nestjs/common';
-import { RecipeDto } from './dtos';
 import { RecipesService } from './recipes.service';
 import { Recipe } from '../entities';
-import { PaginationDto } from '../utils/dtos';
+import { PaginationDto, RecipeDto } from '../utils/dtos';
 import { BadRequestException } from '@nestjs/common';
 
 @Controller({ version: '1', path: 'recipes' })
@@ -24,8 +24,8 @@ export class RecipesController {
   }
 
   // 레시피 전체 조회(필터 기준)
-  @Get('/categories/:categroyId')
-  getAllRecipesByCategory(
+  @Get('/categories/:categoryId')
+  getAllRecipes(
     @Param('categoryId') categoryId: number,
     @Query('filter') filter: string,
     @Query() paginationDto: PaginationDto,
@@ -61,21 +61,31 @@ export class RecipesController {
 
   // 레시피 상세 조회
   @Get('/:recipeId')
-  getRecipeById(@Param('recipeId') recipeId: number): Promise<Recipe> {
-    return this.recipesService.getRecipeById(recipeId);
+  getRecipe(@Param('recipeId') recipeId: number): Promise<Recipe> {
+    return this.recipesService.getRecipe(recipeId);
   }
 
   // 레시피 step 조회
   @Get('/:recipeId/step')
-  getRecipeStepById(@Param('recipeId') recipeId: number): Promise<Recipe> {
-    return this.recipesService.getRecipeStepById(recipeId);
+  getRecipeStep(@Param('recipeId') recipeId: number): Promise<Recipe> {
+    return this.recipesService.getRecipeStep(recipeId);
   }
 
   // 레시피 수정 페이지 조회
   @Get('/:recipeId/update')
-  getRecipeUpdateById(@Param('recipeId') recipeId: number): Promise<Recipe> {
-    return this.recipesService.getRecipeUpdateById(recipeId);
+  getRecipeUpdate(@Param('recipeId') recipeId: number): Promise<Recipe> {
+    return this.recipesService.getRecipeUpdate(recipeId);
   }
 
   // 레시피 수정
+  @Patch('/:recipeId')
+  updateRecipe(@Param('recipeId') recipeId: number): Promise<void> {
+    return this.recipesService.updateRecipe(recipeId);
+  }
+
+  // 레시피 삭제
+  @Delete('/:recipeId')
+  deleteRecipe(@Param('recipeId') recipeId: number): Promise<void> {
+    return this.recipesService.deleteRecipe(recipeId);
+  }
 }

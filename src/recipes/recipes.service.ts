@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { RecipeDto } from './dtos';
 import { Recipe } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
-import { PaginationDto } from 'src/utils/dtos/pagination.dto';
+import { PaginationDto, RecipeDto } from '../utils/dtos';
 
 @Injectable()
 export class RecipesService {
@@ -14,25 +13,30 @@ export class RecipesService {
 
   // service로직 : 레시피 생성
   async createRecipe(createRecipeDto: RecipeDto): Promise<Recipe> {
-    const {
-      title,
-      serving,
-      description,
-      level,
-      contents,
-      ingredients,
-      condiments,
-    } = createRecipeDto;
+    // const {
+    //   title,
+    //   serving,
+    //   description,
+    //   level,
+    //   contents,
+    //   ingredients,
+    //   condiments,
+    // } = createRecipeDto;
+
+    console.log(createRecipeDto);
+    // const result = this.recipeRepository.create({
+    //   title,
+    //   serving,
+    //   description,
+    //   average_score: 0,
+    //   level,
+    //   contents,
+    //   ingredients,
+    //   condiments,
+    // });
 
     const result = this.recipeRepository.create({
-      title,
-      serving,
-      description,
-      average_score: 0,
-      level,
-      contents,
-      ingredients,
-      condiments,
+      ...createRecipeDto,
     });
 
     await this.recipeRepository.save(result);
@@ -46,11 +50,11 @@ export class RecipesService {
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
     const result = this.recipeRepository.find({
-      select: ['id', 'title', 'description', 'average_score', 'level'],
-      //where: { category: categoryId },
       take: perpage,
       skip: (page - 1) * perpage,
       order: { createAt: 'DESC' },
+      select: ['id', 'title', 'description', 'average_score', 'level'],
+      //where: { category: { id: categoryId } },
     });
     return result;
   }
@@ -103,7 +107,7 @@ export class RecipesService {
   }
 
   // 레시피 상세 조회
-  getRecipeById(recipeId: number) {
+  getRecipe(recipeId: number) {
     return this.recipeRepository.findOne({
       select: [
         'id',
@@ -120,7 +124,7 @@ export class RecipesService {
   }
 
   // 레시피 step 조회
-  async getRecipeStepById(recipeId: number): Promise<Recipe> {
+  async getRecipeStep(recipeId: number): Promise<Recipe> {
     return this.recipeRepository.findOne({
       select: ['contents'],
       where: { id: recipeId },
@@ -128,20 +132,19 @@ export class RecipesService {
   }
 
   // 레시피 수정 페이지 조회
-  async getRecipeUpdateById(recipeId: number): Promise<Recipe> {
+  async getRecipeUpdate(recipeId: number): Promise<Recipe> {
     return this.recipeRepository.findOne({
       where: { id: recipeId },
     });
   }
 
-  //   // 레시피 수정
-  //   updateRecipeById() {
-  //     return this.recipeRepository.updateRecipeById();
-  //   }
+  // 레시피 수정
+  async updateRecipe(recipeId: number) {
+    // return this.recipeRepository.();
+  }
 
-  //   // 레시피 삭제
-  //   deleteRecipeById() {
-  //     return this.recipeRepository.deleteRecipeById();
-  //   }
-  //
+  // 레시피 삭제
+  async deleteRecipe(recipeId: number) {
+    // return this.recipeRepository.deleteRecipeById();
+  }
 }

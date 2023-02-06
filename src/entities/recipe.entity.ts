@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { Common, User, RecipeCategory, Review } from '.';
 
 @Entity()
@@ -12,7 +12,7 @@ export class Recipe extends Common {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ type: 'float', default: 0 })
   average_score: number;
 
   @Column()
@@ -29,10 +29,12 @@ export class Recipe extends Common {
 
   // recipe : user = N : 1
   @ManyToOne(() => User, (user) => user.recipes)
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   // recipe : recipe-category = N : 1
   @ManyToOne(() => RecipeCategory, (category) => category.recipes)
+  @JoinColumn({ name: 'categoryId' })
   category: RecipeCategory;
 
   // recipe : review = 1 : N

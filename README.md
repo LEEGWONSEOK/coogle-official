@@ -1,5 +1,7 @@
 # Coogle-official
 
+![coogle_banner](./READMEfile/coogle_banner.png)
+
 - 단계별 요리 레시피 정보 제공 앱 어플리케이션.
 - 테스트 영상 링크 : https://www.youtube.com/watch?v=Xs2p8c-XiV4
 

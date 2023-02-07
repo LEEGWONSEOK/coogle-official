@@ -13,32 +13,9 @@ export class RecipesService {
 
   // service로직 : 레시피 생성
   async createRecipe(createRecipeDto: RecipeDto): Promise<Recipe> {
-    // const {
-    //   title,
-    //   serving,
-    //   description,
-    //   level,
-    //   contents,
-    //   ingredients,
-    //   condiments,
-    // } = createRecipeDto;
-
-    console.log(createRecipeDto);
-    // const result = this.recipeRepository.create({
-    //   title,
-    //   serving,
-    //   description,
-    //   average_score: 0,
-    //   level,
-    //   contents,
-    //   ingredients,
-    //   condiments,
-    // });
-
     const result = this.recipeRepository.create({
       ...createRecipeDto,
     });
-
     await this.recipeRepository.save(result);
     return result;
   }

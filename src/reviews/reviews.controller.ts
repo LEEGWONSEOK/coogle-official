@@ -9,8 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
-import { Review } from 'src/entities';
-import { PaginationDto, ReviewDto } from 'src/utils/dtos';
+import { Review } from '../entities';
+import { PaginationDto, ReviewDto } from '../utils/dtos';
 
 @Controller({ version: '1', path: 'reviews' })
 export class ReviewsController {
@@ -42,13 +42,16 @@ export class ReviewsController {
 
   // 리뷰 수정
   @Patch('/:reviewId/recipes/:recipeId')
-  updateReview(@Param('reviewId') reviewId: number): Promise<Review> {
-    return this.reviewsService.updateReview(reviewId);
+  updateReview(
+    @Param('reviewId') reviewId: number,
+    @Body() updateReviewDto: ReviewDto,
+  ): Promise<string> {
+    return this.reviewsService.updateReview(reviewId, updateReviewDto);
   }
 
-  // 리뷰 삭제
+  // // 리뷰 삭제
   @Delete('/:reviewId/recipes/:recipeId')
-  deleteReview(@Param('reviewId') reviewId: number): Promise<void> {
-    return this.reviewsService.deleteRecipe(reviewId);
+  deleteReview(@Param('reviewId') reviewId: number): Promise<string> {
+    return this.reviewsService.deleteReview(reviewId);
   }
 }

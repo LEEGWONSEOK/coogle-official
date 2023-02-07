@@ -7,11 +7,11 @@ import {
   Delete,
   Param,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { Recipe } from '../entities';
 import { PaginationDto, RecipeDto } from '../utils/dtos';
-import { BadRequestException } from '@nestjs/common';
 
 @Controller({ version: '1', path: 'recipes' })
 export class RecipesController {
@@ -19,8 +19,8 @@ export class RecipesController {
 
   // 레시피 생성
   @Post('/')
-  createRecipe(@Body() createRecipe: RecipeDto): Promise<Recipe> {
-    return this.recipesService.createRecipe(createRecipe);
+  createRecipe(@Body() createRecipeDto: RecipeDto): Promise<Recipe> {
+    return this.recipesService.createRecipe(createRecipeDto);
   }
 
   // 레시피 전체 조회(필터 기준)
@@ -79,13 +79,16 @@ export class RecipesController {
 
   // 레시피 수정
   @Patch('/:recipeId')
-  updateRecipe(@Param('recipeId') recipeId: number): Promise<void> {
-    return this.recipesService.updateRecipe(recipeId);
+  updateRecipe(
+    @Param('recipeId') recipeId: number,
+    @Body() updateRecipeDto: RecipeDto,
+  ): Promise<string> {
+    return this.recipesService.updateRecipe(recipeId, updateRecipeDto);
   }
 
   // 레시피 삭제
   @Delete('/:recipeId')
-  deleteRecipe(@Param('recipeId') recipeId: number): Promise<void> {
+  deleteRecipe(@Param('recipeId') recipeId: number): Promise<string> {
     return this.recipesService.deleteRecipe(recipeId);
   }
 }

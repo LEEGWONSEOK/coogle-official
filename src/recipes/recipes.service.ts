@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Recipe } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
@@ -116,12 +116,25 @@ export class RecipesService {
   }
 
   // 레시피 수정
-  async updateRecipe(recipeId: number) {
-    // return this.recipeRepository.();
+  async updateRecipe(
+    recipeId: number,
+    updateRecipeDto: RecipeDto,
+  ): Promise<string> {
+    const result = await this.recipeRepository.update(recipeId, {
+      ...updateRecipeDto,
+    });
+    if (result.affected !== 1) {
+      throw new NotFoundException(`Can't find Recipe with id '${recipeId}'`);
+    }
+    return `Board '${recipeId}' has been updated`;
   }
 
   // 레시피 삭제
-  async deleteRecipe(recipeId: number) {
-    // return this.recipeRepository.deleteRecipeById();
+  async deleteRecipe(recipeId: number): Promise<string> {
+    const result = await this.recipeRepository.delete({ id: recipeId });
+    if (result.affected !== 1) {
+      throw new NotFoundException(`Can't find Recipe with id '${recipeId}'`);
+    }
+    return `Board '${recipeId}' has been deleted`;
   }
 }

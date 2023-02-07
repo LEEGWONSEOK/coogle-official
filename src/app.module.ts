@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './configs/typeorm.config';
 import { ReviewsModule } from './reviews/reviews.module';
 import { TipsModule } from './tips/tips.module';
+import { RecipeCategoriesModule } from './recipe-categories/recipe-categories.module';
+import { TipCategoriesModule } from './tip-categories/tip-categories.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { TipsModule } from './tips/tips.module';
     RecipesModule,
     ReviewsModule,
     TipsModule,
+    RecipeCategoriesModule,
+    TipCategoriesModule,
   ],
 })
 export class AppModule {}

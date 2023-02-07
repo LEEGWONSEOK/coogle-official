@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Review } from 'src/entities';
+import { Review } from '../entities';
 import { Repository } from 'typeorm';
-import { PaginationDto, ReviewDto } from 'src/utils/dtos';
+import { PaginationDto, ReviewDto } from '../utils/dtos';
 
 @Injectable()
 export class ReviewsService {
@@ -37,16 +37,31 @@ export class ReviewsService {
 
   // 리뷰 수정 페이지 조회
   async getReviewUpdate(reviewId: number): Promise<Review> {
-    return this.reviewRepository.findOne({ where: { id: reviewId } });
+    return this.reviewRepository.findOne({
+      where: { id: reviewId },
+    });
   }
 
   // 리뷰 수정
-  async updateReview(reviewId: number): Promise<void> {
-    return;
+  async updateReview(
+    reviewId: number,
+    updateReviewDto: ReviewDto,
+  ): Promise<string> {
+    const result = await this.reviewRepository.update(reviewId, {
+      ...updateReviewDto,
+    });
+    if (result.affected !== 1) {
+      throw new NotFoundException(`Can't find Review with id '${reviewId}'`);
+    }
+    return `Review '${reviewId}' has been updated`;
   }
 
   // 리뷰 삭제
-  async deleteReview(reviewId: number): Promise<void> {
-    return;
+  async deleteReview(reviewId: number): Promise<string> {
+    const result = await this.reviewRepository.delete({ id: reviewId });
+    if (result.affected !== 1) {
+      throw new NotFoundException(`Can't find Recipe with id '${reviewId}'`);
+    }
+    return `Review '${reviewId}' has been deleted`;
   }
 }

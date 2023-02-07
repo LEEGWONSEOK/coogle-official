@@ -1,6 +1,7 @@
 # Coogle-official
 
 ![coogle_banner](./READMEfile/coogle_banner.png)
+![coogle_banner](./READMEfile/coogle_banner2.png)
 
 - 음성인식 기반 단계별 레시피 정보 제공 모바일 앱.
 - 테스트 영상 링크 : https://www.youtube.com/watch?v=Xs2p8c-XiV4

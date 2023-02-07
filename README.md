@@ -64,5 +64,3 @@ $ npm run start:dev  # dev mode
 ![database](./READMEfile/coogleDB.drawio.png)
 
 <br>
-
-![coogle_banner](./READMEfile/coogle_banner2.png)

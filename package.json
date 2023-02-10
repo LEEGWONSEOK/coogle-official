@@ -26,6 +26,7 @@
     "@nestjs/jwt": "^10.0.1",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.2.1",
     "@nestjs/typeorm": "^9.0.1",
     "@types/passport-jwt": "^3.0.8",
     "@types/passport-kakao": "^1.0.0",
@@ -38,6 +39,7 @@
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.6.0",
     "typeorm": "^0.3.11"
   },
   "devDependencies": {

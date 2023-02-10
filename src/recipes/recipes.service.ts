@@ -13,8 +13,10 @@ export class RecipesService {
 
   // service로직 : 레시피 생성
   async createRecipe(createRecipeDto: RecipeDto): Promise<Recipe> {
+    console.log(createRecipeDto);
     const result = this.recipeRepository.create({
       ...createRecipeDto,
+      userId: 29,
     });
     await this.recipeRepository.save(result);
     return result;
@@ -26,12 +28,12 @@ export class RecipesService {
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = this.recipeRepository.find({
-      take: perpage,
-      skip: (page - 1) * perpage,
+    const result = await this.recipeRepository.find({
+      where: { categoryId },
       order: { createAt: 'DESC' },
       select: ['id', 'title', 'description', 'average_score', 'level'],
-      //where: { category: { id: categoryId } },
+      take: perpage,
+      skip: (page - 1) * perpage,
     });
     return result;
   }
@@ -42,12 +44,12 @@ export class RecipesService {
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = this.recipeRepository.find({
+    const result = await this.recipeRepository.find({
+      where: { id: categoryId },
+      order: { average_score: 'DESC' },
       select: ['id', 'title', 'description', 'average_score', 'level'],
-      //where: { id: categoryId },
       take: perpage,
       skip: (page - 1) * perpage,
-      order: { average_score: 'DESC' },
     });
     return result;
   }
@@ -58,12 +60,12 @@ export class RecipesService {
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = this.recipeRepository.find({
+    const result = await this.recipeRepository.find({
+      where: { id: categoryId },
+      order: { createAt: 'ASC' },
       select: ['id', 'title', 'description', 'average_score', 'level'],
-      //where: { id: categoryId },
       take: perpage,
       skip: (page - 1) * perpage,
-      order: { createAt: 'ASC' },
     });
     return result;
   }
@@ -74,7 +76,7 @@ export class RecipesService {
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = this.recipeRepository.find({
+    const result = await this.recipeRepository.find({
       select: ['id', 'title', 'description', 'average_score', 'level'],
       take: perpage,
       skip: (page - 1) * perpage,

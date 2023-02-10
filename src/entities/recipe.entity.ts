@@ -27,15 +27,21 @@ export class Recipe extends Common {
   @Column({ type: 'json', nullable: true })
   condiments: object[];
 
+  // recipe : recipe-category = N : 1
+  @ManyToOne(() => RecipeCategory, (category) => category.recipes)
+  @JoinColumn({ name: 'categoryId' })
+  category: RecipeCategory;
+
   // recipe : user = N : 1
   @ManyToOne(() => User, (user) => user.recipes)
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  // recipe : recipe-category = N : 1
-  @ManyToOne(() => RecipeCategory, (category) => category.recipes)
-  @JoinColumn({ name: 'categoryId' })
-  category: RecipeCategory;
+  @Column()
+  userId: number;
+
+  @Column()
+  categoryId: number;
 
   // recipe : review = 1 : N
   @OneToMany(() => Review, (review) => review.recipe)

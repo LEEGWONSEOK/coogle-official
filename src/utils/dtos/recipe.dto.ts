@@ -26,4 +26,8 @@ export class RecipeDto {
   @IsNotEmpty()
   @IsArray()
   condiments: object[];
+
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId: number;
 }

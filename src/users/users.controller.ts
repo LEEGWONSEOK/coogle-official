@@ -10,7 +10,7 @@ import { UsersService } from './users.service';
 import { AccountDto, AuthCreateDto } from '../utils/dtos';
 import { User } from '../entities';
 
-@Controller('/users')
+@Controller({ version: '1', path: '/users' })
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -20,45 +20,12 @@ export class UsersController {
   }
 }
 
-@Controller('/auth')
+@Controller({ version: '1', path: '/auth' })
 export class AuthController {
   constructor(private usersService: UsersService) {}
 
-  @Post('/sign-up')
-  signUp(@Body() authCreateDto: AuthCreateDto): Promise<void> {
-    return this.usersService.signUp(authCreateDto);
+  @Post('/login/kakao')
+  loginOrSignUp(@Body() accountDto: AccountDto): Promise<string> {
+    return this.usersService.loginOrSignUp(accountDto);
   }
-
-  // @Post('/sign-in/kakao')
-  // signIn(@Body() accountDto: AccountDto): Promise<any> {
-  //   const findUser = this.usersService.findUser(accountDto);
-  //   if (findUser) {
-  //     return this.usersService.signIn(accountDto);
-  //   } else {
-  //     return this.usersService.signUp(accountDto);
-  //   }
-  // }
-
-  // @Post('/sign-in')
-  // signIn(@Body() body: any, @Response() res): Promise<any> {
-  //   try {
-  //     const { code, domain } = body;
-  //     if (!code || !domain) {
-  //       throw new BadRequestException(`카카오 정보가 없습니다`);
-  //     }
-  //     const kakao = await this.usersService.kakaoLogin({ code, domain });
-
-  //     console.log(`kakaoUserInfo : ${JSON.stringify(kakao)}`);
-  //     if (!kakao.id) {
-  //       throw new BadRequestException(`카카오 id 정보가 없습니다.`);
-  //     }
-  //     res.send({
-  //       user: kakao,
-  //       message: `success`,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new UnauthorizedException();
-  //   }
-  // }
 }

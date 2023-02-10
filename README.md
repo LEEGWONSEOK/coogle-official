@@ -20,7 +20,7 @@
 
 - Programming : `Typescript` , `Nest.js`
 - Database & ORM : `PostgreSQL` , `TypeORM`
-- API Test : `Postman`
+- API Test & Docs : `Postman` , `SwaggerUI`
 - Container : `Docker`
 
 <br>
@@ -34,6 +34,7 @@
 - MySQL, Sequelize 기반의 RestAPI 설계
 - 비정형 데이터(레시피 내용)은 json array 타입으로 DB에 저장
 - TypeORM 0.2v 에서 0.3v 으로 마이그레이션
+- swaggerUI 기반 API Docs 생성
 
 ### JWT 인증 토큰 활용 및 유효성 체크 기능 개발
 

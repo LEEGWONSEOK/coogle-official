@@ -18,7 +18,7 @@ services:
       POSTGRES_PASSWROD: "postgres"
     volumes:
       - ./postgres:/var/lib/postgresql/data
-      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql # 신경 X
+      # - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql # 신경 X
 
   web: 
     container_name: coogle_nestjs_v1

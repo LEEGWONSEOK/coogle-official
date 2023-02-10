@@ -12,13 +12,17 @@ import {
 import { RecipesService } from './recipes.service';
 import { Recipe } from '../entities';
 import { PaginationDto, RecipeDto } from '../utils/dtos';
+import { ApiTags, ApiOperation, ApiCreatedResponse } from '@nestjs/swagger';
 
 @Controller({ version: '1', path: 'recipes' })
+@ApiTags('레시피 API')
 export class RecipesController {
   constructor(private recipesService: RecipesService) {}
 
   // 레시피 생성
   @Post('/')
+  @ApiOperation({ summary: '레시피 생성 API', description: '레시피 생성' })
+  @ApiCreatedResponse({ description: '레시피 생성', type: Recipe })
   createRecipe(@Body() createRecipeDto: RecipeDto): Promise<Recipe> {
     return this.recipesService.createRecipe(createRecipeDto);
   }

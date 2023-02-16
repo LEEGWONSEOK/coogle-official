@@ -1,93 +1,104 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Recipe } from '../entities';
+import { Recipe } from '../../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
-import { PaginationDto, RecipeDto } from '../utils/dtos';
+import { PaginationDto, RecipeDto } from '../../common/dtos';
 
 @Injectable()
 export class RecipesService {
   constructor(
     @InjectRepository(Recipe)
-    private recipeRepository: Repository<Recipe>,
+    private repo: Repository<Recipe>,
   ) {}
 
   // service로직 : 레시피 생성
-  async createRecipe(createRecipeDto: RecipeDto): Promise<Recipe> {
-    console.log(createRecipeDto);
-    const result = this.recipeRepository.create({
-      ...createRecipeDto,
+  async createRecipe(body: RecipeDto): Promise<Recipe> {
+    const result = this.repo.create({
+      ...body,
       userId: 29,
     });
-    await this.recipeRepository.save(result);
+    await this.repo.save(result);
     return result;
   }
 
   // 레시피 전체 조회(카테고리=latest)
-  async getAllRecipesByLatest(
-    categoryId: number,
+  async getRecipesByLatest(
+    id: number,
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = await this.recipeRepository.find({
-      where: { categoryId },
+    const result = await this.repo.find({
+      where: { categoryId: id },
       order: { createAt: 'DESC' },
       select: ['id', 'title', 'description', 'average_score', 'level'],
       take: perpage,
       skip: (page - 1) * perpage,
     });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipes`);
+    }
     return result;
   }
 
   // 레시피 전체 조회(카테고리=popularity)
-  async getAllRecipesByPopularity(
-    categoryId: number,
+  async getRecipesByPopularity(
+    id: number,
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = await this.recipeRepository.find({
-      where: { id: categoryId },
+    const result = await this.repo.find({
+      where: { categoryId: id },
       order: { average_score: 'DESC' },
       select: ['id', 'title', 'description', 'average_score', 'level'],
       take: perpage,
       skip: (page - 1) * perpage,
     });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipes`);
+    }
     return result;
   }
 
   // 레시피 전체 조회(카테고리=generated)
-  async getAllRecipesByGenerated(
-    categoryId: number,
+  async getRecipesByGenerated(
+    id: number,
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = await this.recipeRepository.find({
-      where: { id: categoryId },
+    const result = await this.repo.find({
+      where: { categoryId: id },
       order: { createAt: 'ASC' },
       select: ['id', 'title', 'description', 'average_score', 'level'],
       take: perpage,
       skip: (page - 1) * perpage,
     });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipes`);
+    }
     return result;
   }
 
   // 레시피 검색 조회
-  async getAllRecipesBySearch(
+  async getRecipesBySearch(
     q: string,
     paginationDto: PaginationDto,
   ): Promise<Recipe[]> {
     const { page, perpage } = paginationDto;
-    const result = await this.recipeRepository.find({
+    const result = await this.repo.find({
       select: ['id', 'title', 'description', 'average_score', 'level'],
       take: perpage,
       skip: (page - 1) * perpage,
       where: [{ title: Like(`%${q}%`) }],
     });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipe with keyword '${q}'`);
+    }
     return result;
   }
 
   // 레시피 상세 조회
-  getRecipe(recipeId: number) {
-    return this.recipeRepository.findOne({
+  async getRecipe(id: number) {
+    const result = await this.repo.findOne({
       select: [
         'id',
         'title',
@@ -98,45 +109,52 @@ export class RecipesService {
         'ingredients',
         'condiments',
       ],
-      where: { id: recipeId },
+      where: { id },
     });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipe with id '${id}'`);
+    }
+    return result;
   }
 
   // 레시피 step 조회
-  async getRecipeStep(recipeId: number): Promise<Recipe> {
-    return this.recipeRepository.findOne({
+  async getRecipeStep(id: number): Promise<Recipe> {
+    const result = await this.repo.findOne({
       select: ['contents'],
-      where: { id: recipeId },
+      where: { id },
     });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipe Step with id '${id}'`);
+    }
+    return result;
   }
 
   // 레시피 수정 페이지 조회
-  async getRecipeUpdate(recipeId: number): Promise<Recipe> {
-    return this.recipeRepository.findOne({
-      where: { id: recipeId },
-    });
+  async getRecipeUpdate(id: number): Promise<Recipe> {
+    const result = await this.repo.findOne({ where: { id } });
+    if (!result) {
+      throw new NotFoundException(`Can't find Recipe with id'${id}'`);
+    }
+    return result;
   }
 
   // 레시피 수정
-  async updateRecipe(
-    recipeId: number,
-    updateRecipeDto: RecipeDto,
-  ): Promise<string> {
-    const result = await this.recipeRepository.update(recipeId, {
-      ...updateRecipeDto,
+  async updateRecipe(id: number, body: RecipeDto): Promise<string> {
+    const result = await this.repo.update(id, {
+      ...body,
     });
     if (result.affected !== 1) {
-      throw new NotFoundException(`Can't find Recipe with id '${recipeId}'`);
+      throw new NotFoundException(`Can't find Recipe with id '${id}'`);
     }
-    return `Board '${recipeId}' has been updated`;
+    return `Board '${id}' has been updated`;
   }
 
   // 레시피 삭제
-  async deleteRecipe(recipeId: number): Promise<string> {
-    const result = await this.recipeRepository.delete({ id: recipeId });
+  async deleteRecipe(id: number): Promise<string> {
+    const result = await this.repo.delete({ id });
     if (result.affected !== 1) {
-      throw new NotFoundException(`Can't find Recipe with id '${recipeId}'`);
+      throw new NotFoundException(`Can't find Recipe with id '${id}'`);
     }
-    return `Board '${recipeId}' has been deleted`;
+    return `Board '${id}' has been deleted`;
   }
 }

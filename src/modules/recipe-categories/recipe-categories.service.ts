@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RecipeCategory } from 'src/entities';
-import { RecipeCategoryDto } from 'src/utils/dtos/recipe-category.dto';
+import { RecipeCategoryDto } from 'src/common/dtos/recipe-category.dto';
 import { Repository } from 'typeorm';
 
 @Injectable()

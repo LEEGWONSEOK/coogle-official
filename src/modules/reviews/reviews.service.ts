@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from '../entities';
 import { Repository } from 'typeorm';
-import { PaginationDto, ReviewDto } from '../utils/dtos';
+import { PaginationDto, ReviewDto } from '../common/dtos';
 
 @Injectable()
 export class ReviewsService {

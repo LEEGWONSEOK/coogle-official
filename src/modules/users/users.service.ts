@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities';
 import { JwtService } from '@nestjs/jwt';
-import { AccountDto } from '../utils/dtos';
+import { AccountDto } from '../common/dtos';
 
 @Injectable()
 export class UsersService {

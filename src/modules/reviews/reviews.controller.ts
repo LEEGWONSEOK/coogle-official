@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { Review } from '../entities';
-import { PaginationDto, ReviewDto } from '../utils/dtos';
+import { PaginationDto, ReviewDto } from '../common/dtos';
 
 @Controller({ version: '1', path: 'reviews' })
 export class ReviewsController {

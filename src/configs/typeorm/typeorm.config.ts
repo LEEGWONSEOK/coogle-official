@@ -6,7 +6,7 @@ import {
   Tip,
   TipCategory,
   Review,
-} from '../entities';
+} from '../../entities';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',

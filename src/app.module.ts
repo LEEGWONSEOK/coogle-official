@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
-import { RecipesModule } from './recipes/recipes.module';
+import {
+  UsersModule,
+  RecipesModule,
+  RecipeCategoriesModule,
+  TipsModule,
+  TipCategoriesModule,
+  ReviewsModule,
+} from './modules';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './configs/typeorm.config';
-import { ReviewsModule } from './reviews/reviews.module';
-import { TipsModule } from './tips/tips.module';
-import { RecipeCategoriesModule } from './recipe-categories/recipe-categories.module';
-import { TipCategoriesModule } from './tip-categories/tip-categories.module';
+import { typeOrmConfig } from './configs/typeorm/typeorm.config';
 
 @Module({
   imports: [

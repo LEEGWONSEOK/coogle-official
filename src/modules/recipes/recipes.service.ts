@@ -40,7 +40,7 @@ export class RecipesService {
     return result;
   }
 
-  // 레시피 전체 조회(카테고리=popularity)
+  // 레시피 전체 조회(카테고리=popularity(인기 순))
   async getRecipesByPopularity(
     id: number,
     paginationDto: PaginationDto,
@@ -59,7 +59,7 @@ export class RecipesService {
     return result;
   }
 
-  // 레시피 전체 조회(카테고리=generated)
+  // 레시피 전체 조회(카테고리=generated(생성일 기준))
   async getRecipesByGenerated(
     id: number,
     paginationDto: PaginationDto,

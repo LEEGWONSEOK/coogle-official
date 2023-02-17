@@ -8,11 +8,16 @@ import {
   Param,
   Query,
   BadRequestException,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
-import { Recipe } from '../../entities';
+import { Recipe, User } from '../../entities';
 import { PaginationDto, RecipeDto } from '../../common/dtos';
 import { ApiTags, ApiOperation, ApiCreatedResponse } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../users/decorator/get-user.decorator';
 
 @Controller({ version: '1', path: 'recipes' })
 @ApiTags('레시피 API')
@@ -23,8 +28,12 @@ export class RecipesController {
   @Post('/')
   @ApiOperation({ summary: '레시피 생성 API', description: '레시피 생성' })
   @ApiCreatedResponse({ description: '레시피 생성', type: Recipe })
-  createRecipe(@Body() body: RecipeDto): Promise<Recipe> {
-    return this.service.createRecipe(body);
+  @UseGuards(AuthGuard())
+  createRecipe(
+    @Body() body: RecipeDto,
+    @GetUser() user: User,
+  ): Promise<Recipe> {
+    return this.service.createRecipe(body, user);
   }
 
   // 레시피 전체 조회(필터 기준)

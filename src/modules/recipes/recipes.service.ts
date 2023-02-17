@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Recipe } from '../../entities';
+import { Recipe, User } from '../../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { PaginationDto, RecipeDto } from '../../common/dtos';
@@ -12,7 +12,8 @@ export class RecipesService {
   ) {}
 
   // service로직 : 레시피 생성
-  async createRecipe(body: RecipeDto): Promise<Recipe> {
+  async createRecipe(body: RecipeDto, user: User): Promise<Recipe> {
+    console.log(user);
     const result = this.repo.create({
       ...body,
       userId: 29,

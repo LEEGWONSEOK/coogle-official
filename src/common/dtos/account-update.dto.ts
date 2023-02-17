@@ -5,8 +5,4 @@ export class AuthCreateDto extends AccountDto {
   @IsNotEmpty()
   @IsString()
   nickname: string;
-
-  @IsNotEmpty()
-  @IsString()
-  platform: string;
 }

@@ -1,14 +1,14 @@
-import { IsInt, Min, Max } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsNumber, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class PaginationDto {
-  @Transform((value) => +value)
-  @IsInt()
-  @Min(0)
+  @Type(() => Number)
+  @IsNumber()
+  @Min(1)
   page: number;
 
-  @Transform((value) => +value)
-  @IsInt()
+  @Type(() => Number)
+  @IsNumber()
   @Min(1)
   @Max(50)
   perpage: number;
